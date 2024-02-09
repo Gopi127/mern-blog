@@ -1,11 +1,11 @@
 const express = require("express");
+const userRoutes = require("./router/userRouter");
 const connection = require("./storage/db");
-const userRoutes = require("./routes/user.route");
 
 const app = express();
-
 connection();
 const port = 4001;
+
 app.use(express.json());
 app.use("/api/user", userRoutes);
 
