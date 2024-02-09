@@ -1,11 +1,12 @@
 const User = require("../model/User");
 const expressAsyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
+const errorHandler = require("../utils/error");
 
-const userRegisterCtrl = expressAsyncHandler(async (req, res) => {
+const userRegisterCtrl = expressAsyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password || username === "" || password === "") {
-    return res.status(204).json({ message: "All fields are required" });
+    next(errorHandler(400, "Missing data"));
   }
 
   const hashPassword = await bcrypt.hashSync(password, 10);
@@ -18,7 +19,7 @@ const userRegisterCtrl = expressAsyncHandler(async (req, res) => {
     });
     res.json(user);
   } catch (error) {
-    res.json(error.message);
+    next(error);
   }
 });
 
