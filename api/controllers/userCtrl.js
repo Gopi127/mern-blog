@@ -17,7 +17,7 @@ const userRegisterCtrl = expressAsyncHandler(async (req, res, next) => {
       email,
       password: hashPassword,
     });
-    res.json("Sing up successfull");
+    res.json(user);
   } catch (error) {
     next(error);
   }
